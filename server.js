@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const multiparty = require("multiparty");
 require("dotenv").config();
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -13,13 +13,15 @@ app.use(cors({ origin: "*" }));
 app.use("/", express.static(process.cwd()));
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
+  host: 'smtp.zoho.in',
+  port: '465',
+  secure: true, // true for 465, false for other ports
+    auth: {
   //  user: process.env.EMAIL,
  
   //  pass: process.env.PASS,
-    user: "yashbgdi@gmail.com",
-    pass:  "clkxawpreglhtxkw"
+    user: "admin@hobeninfotech.com",
+    pass:  "ghCsfuUeaHsQ"
 },
 });
 
@@ -40,14 +42,14 @@ app.post("/send", (req, res) => {
       data[property] = fields[property].toString();
     });
     console.log(data);
-    var basicInfo =  `Hello team Hoben ! I am ${data.name}  ${data.email}\n Email : ${data.subject}\n  Mobile : ${data.message}`; 
+    var basicInfo =  `Hello Hoben InfoTech ! I am ${data.name} \n My Email is :  ${data.email}\n Mobile : ${data.Mobile}\n  Message : ${data.message}`; 
     const mail = {
-      sender: `${data.name} <${data.email}>`,
+      sender:'admin@hobeninfotech.com', //`${data.name} <${data.email}>`,
      // to: process.env.EMAIL, // receiver email,
-      to:"yashbgdi@gmail.com",
+      to:"hobeninfotech@gmail.com ",
      subject: data.subject,
      // text: `${data.name} <${data.email}> \n${data.message}`,
-    text: `${basicInfo} ${data.mesasage}` 
+    text: `${basicInfo} `//${data.mesasage}` 
     };
     transporter.sendMail(mail, (err, data) => {
       if (err) {
